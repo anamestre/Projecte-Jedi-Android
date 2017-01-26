@@ -16,13 +16,16 @@ import android.view.MenuItem;
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        iniView();
+
+         // Coses de relleno de Android.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -31,6 +34,21 @@ public class BaseActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void iniView(){
+
+        // Ini Main Fragment
+        Calculator calculator = new Calculator();
+        android.support.v4.app.FragmentTransaction FragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction.replace(R.id.fragment_container, calculator);
+        FragmentTransaction.commit();
+
+        // Ini Toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        String title = (String) getResources().getString(R.string.calculator);
+        toolbar.setTitle(title);
     }
 
     @Override

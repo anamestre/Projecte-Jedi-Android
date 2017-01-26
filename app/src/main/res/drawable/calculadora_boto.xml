@@ -3,5 +3,12 @@
     <item
         android:state_pressed="true"
         android:drawable="@color/buttonPressed" />
-    <item android:drawable="@android:color/transparent" />
+    <item>
+        <shape>
+            <stroke android:width="0.5dp"
+                android:color="#80CBC4" />
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+
 </selector>
