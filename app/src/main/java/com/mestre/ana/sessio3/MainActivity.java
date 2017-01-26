@@ -28,8 +28,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button num7;
     Button num8;
     Button num9;
+
     Button comma;
     Button parentesis;
+    Button multiply;
+    Button divide;
     Button plus;
     Button subs;
     Button equals;
@@ -80,6 +83,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         comma.setOnClickListener(this);
         parentesis = (Button) findViewById(R.id.parentesis);
         parentesis.setOnClickListener(this);
+        multiply = (Button) findViewById(R.id.multiply);
+        multiply.setOnClickListener(this);
+        divide = (Button) findViewById(R.id.divide);
+        divide.setOnClickListener(this);
         plus = (Button) findViewById(R.id.plus);
         plus.setOnClickListener(this);
         subs = (Button) findViewById(R.id.substract);
@@ -131,10 +138,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 t.setText(expr.concat("."));
                 break;
             case R.id.divide:
-                t.setText(expr.concat("/"));
+                String div = (String) getResources().getString(R.string.divide);
+                t.setText(expr.concat(div));
                 break;
             case R.id.multiply:
-                t.setText(expr.concat("x"));
+                String multi = (String) getResources().getString(R.string.multiply);
+                t.setText(expr.concat(multi));
                 break;
             case R.id.plus:
                 t.setText(expr.concat("+"));
@@ -143,14 +152,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 t.setText(expr.concat("-"));
                 break;
             case R.id.delete:
-                if(t != null) t.setText(expr.substring(1, t.));
+                if(t.length() > 0) t.setText(expr.substring(0, t.length() - 1));
                 break;
 
         }
 
 
     }
-/*
+
+
+    public void calcula(){
+
+    }
+
+    /*
     @Override
     protected void onSaveInstanceState(Bundle outstate){
         super.onSaveInstanceState(outstate);
