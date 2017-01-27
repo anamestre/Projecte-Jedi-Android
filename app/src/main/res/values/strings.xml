@@ -8,6 +8,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_toasts">Toasts</string>
-    <string name="action_notificacio">Notificacions random</string>
+    <string name="snackbar">Snackbar</string>
     <string name="calculator">Calculator</string>
 </resources>

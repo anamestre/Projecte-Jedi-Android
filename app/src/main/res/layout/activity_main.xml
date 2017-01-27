@@ -39,24 +39,27 @@
 
     <!-- Primera fila -->
     <TableRow
-        android:layout_weight="1"
-        android:weightSum="4">
+        android:layout_weight="1">
         <Button
             android:id="@+id/delete"
-            android:layout_weight="1.5"
+            android:layout_weight="1"
             android:text="DEL"
             style="@style/Botons"/>/>
 
         <Button
             android:id="@+id/ac"
-            android:layout_weight="1.5"
+            android:layout_weight="1"
             android:text="AC"
             style="@style/Botons"/>
-
         <Button
-            android:id="@+id/parentesis"
+            android:id="@+id/lparen"
             android:layout_weight="1"
-            android:text="( ) "
+            android:text="("
+            style="@style/Botons"/>/>
+        <Button
+            android:id="@+id/rparen"
+            android:layout_weight="1"
+            android:text=")"
             style="@style/Botons"/>/>
     </TableRow>
 

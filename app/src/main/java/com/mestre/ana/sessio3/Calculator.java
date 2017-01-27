@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import android.widget.TextView;
 public class Calculator extends Fragment implements View.OnClickListener {
 
     protected TextView t;
+    protected TextView sol;
+    protected View v;
+
     protected Button num0;
     protected Button num1;
     protected Button num2;
@@ -29,7 +33,8 @@ public class Calculator extends Fragment implements View.OnClickListener {
     protected Button num9;
 
     protected Button comma;
-    protected Button parentesis;
+    protected Button lparen;
+    protected Button rparen;
     protected Button multiply;
     protected Button divide;
     protected Button plus;
@@ -38,7 +43,6 @@ public class Calculator extends Fragment implements View.OnClickListener {
     protected Button ac;
     protected Button del;
 
-    protected View v;
 
     public Calculator() {
         // Required empty public constructor
@@ -49,8 +53,15 @@ public class Calculator extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         v =  inflater.inflate(R.layout.activity_main, container, false);
         iniViews();
+        getActivity().setTitle("Calculator");
+
+        if (savedInstanceState != null){
+            t.setText(savedInstanceState.getString("prova"));
+        }
+
         return v;
     }
 
@@ -77,8 +88,10 @@ public class Calculator extends Fragment implements View.OnClickListener {
         num9.setOnClickListener(this);
         comma = (Button) v.findViewById(R.id.comma);
         comma.setOnClickListener(this);
-        parentesis = (Button) v.findViewById(R.id.parentesis);
-        parentesis.setOnClickListener(this);
+        lparen = (Button) v.findViewById(R.id.lparen);
+        lparen.setOnClickListener(this);
+        rparen = (Button) v.findViewById(R.id.rparen);
+        rparen.setOnClickListener(this);
         multiply = (Button) v.findViewById(R.id.multiply);
         multiply.setOnClickListener(this);
         divide = (Button) v.findViewById(R.id.divide);
@@ -153,10 +166,18 @@ public class Calculator extends Fragment implements View.OnClickListener {
             case R.id.ac:
                 if(t.length() > 0) t.setText("");
                 break;
-
+            case R.id.lparen:
+                t.setText(expr.concat("("));
+                break;
+            case R.id.rparen:
+                t.setText(expr.concat(")"));
+                break;
         }
-
-
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outstate){
+        super.onSaveInstanceState(outstate);
+        outstate.putString("prova", t.getText().toString());
+    }
 }

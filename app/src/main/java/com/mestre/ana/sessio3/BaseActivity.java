@@ -3,6 +3,7 @@ package com.mestre.ana.sessio3;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,13 +18,14 @@ public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        iniView();
+        iniView(savedInstanceState);
 
          // Coses de relleno de Android.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -36,12 +38,23 @@ public class BaseActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    public void iniView(){
+    @Override
+    public void onSaveInstanceState(Bundle outstate){
+        super.onSaveInstanceState(outstate);
+        getSupportFragmentManager().putFragment(outstate, "fragment", fragment);
+    }
 
-        // Ini Main Fragment
-        Calculator calculator = new Calculator();
+    public void iniView(Bundle savedInstancesState){
+
+        if(savedInstancesState != null) {
+            fragment = getSupportFragmentManager().getFragment(savedInstancesState, "fragment");
+        }
+        else {
+            Calculator calculator = new Calculator();
+            fragment = calculator;
+        }
         android.support.v4.app.FragmentTransaction FragmentTransaction = getSupportFragmentManager().beginTransaction();
-        FragmentTransaction.replace(R.id.fragment_container, calculator);
+        FragmentTransaction.replace(R.id.fragment_container, fragment);
         FragmentTransaction.commit();
 
         // Ini Toolbar
@@ -84,6 +97,14 @@ public class BaseActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        switch (id) {
+            case R.id.nav_calculator:
+                Calculator calculator = new Calculator();
+                android.support.v4.app.FragmentTransaction FragmentTransaction = getSupportFragmentManager().beginTransaction();
+                FragmentTransaction.replace(R.id.fragment_container, calculator);
+                FragmentTransaction.commit();
+
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
