@@ -18,13 +18,13 @@
             android:checkable="true"/>
     </group>
     <item
-        android:id="@+id/phone_call"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_phone">
-    </item>
-    <item
         android:id="@+id/wolfram"
         app:showAsAction="ifRoom"
         android:icon="@drawable/wolfram">
+    </item>
+    <item
+        android:id="@+id/phone_call"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_phone">
     </item>
 </menu>

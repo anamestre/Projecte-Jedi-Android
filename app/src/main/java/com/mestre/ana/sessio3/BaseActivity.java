@@ -44,6 +44,13 @@ public class BaseActivity extends AppCompatActivity
         getSupportFragmentManager().putFragment(outstate, "fragment", fragment);
     }
 
+    public void transaction(){
+        android.support.v4.app.FragmentTransaction FragmentTransaction;
+        FragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction.replace(R.id.fragment_container, fragment);
+        FragmentTransaction.commit();
+    }
+
     public void iniView(Bundle savedInstancesState){
 
         if(savedInstancesState != null) {
@@ -53,9 +60,8 @@ public class BaseActivity extends AppCompatActivity
             Calculator calculator = new Calculator();
             fragment = calculator;
         }
-        android.support.v4.app.FragmentTransaction FragmentTransaction = getSupportFragmentManager().beginTransaction();
-        FragmentTransaction.replace(R.id.fragment_container, fragment);
-        FragmentTransaction.commit();
+
+        transaction();
 
         // Ini Toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -76,28 +82,17 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.base, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void transaction(){
-        android.support.v4.app.FragmentTransaction FragmentTransaction;
-        FragmentTransaction = getSupportFragmentManager().beginTransaction();
-        FragmentTransaction.replace(R.id.fragment_container, fragment);
-        FragmentTransaction.commit();
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -113,6 +108,11 @@ public class BaseActivity extends AppCompatActivity
             case R.id.nav_profile:
                 Profile profile = new Profile();
                 fragment = profile;
+                transaction();
+                break;
+            case R.id.nav_music:
+                MusicPlayer music = new MusicPlayer();
+                fragment = music;
                 transaction();
                 break;
         }
