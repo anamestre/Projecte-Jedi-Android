@@ -10,4 +10,8 @@
     <string name="action_toasts">Toasts</string>
     <string name="snackbar">Snackbar</string>
     <string name="calculator">Calculator</string>
+
+    <string name="username">Name</string>
+    <string name="lastNotification">Last notification</string>
+    <string name="bestScore">Best score</string>
 </resources>

@@ -3,6 +3,27 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_profile"
+            android:title="Profile"
+            android:icon="@mipmap/ic_profile">
+
+        </item>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_memory"
+            android:icon="@mipmap/ic_memory"
+            android:title="Memory" />
+        <item
+            android:id="@+id/nav_ranking"
+            android:icon="@mipmap/ic_star"
+            android:title="Ranking" />
+        <item
+            android:id="@+id/nav_music"
+            android:icon="@mipmap/ic_music"
+            android:title="Music player" />
+        <item
             android:id="@+id/nav_calculator"
             android:icon="@drawable/ic_phone_android_black_24dp"
             android:title="Calculator" />

@@ -6,11 +6,25 @@
             android:id="@+id/action_toasts"
             android:orderInCategory="100"
             android:title="@string/action_toasts"
-            app:showAsAction="never" />
+            app:showAsAction="never"
+            android:checked="false"
+            android:checkable="true"/>
         <item
             android:id="@+id/action_notificacio"
             android:orderInCategory="100"
             android:title="@string/snackbar"
-            app:showAsAction="never" />
+            app:showAsAction="never"
+            android:checked="false"
+            android:checkable="true"/>
     </group>
+    <item
+        android:id="@+id/phone_call"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_phone">
+    </item>
+    <item
+        android:id="@+id/wolfram"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/wolfram">
+    </item>
 </menu>

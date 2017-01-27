@@ -1,16 +1,23 @@
 package com.mestre.ana.sessio3;
 
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +50,9 @@ public class Calculator extends Fragment implements View.OnClickListener {
     protected Button ac;
     protected Button del;
 
+    public boolean toasts;
+    public boolean state;
+
 
     public Calculator() {
         // Required empty public constructor
@@ -59,9 +69,9 @@ public class Calculator extends Fragment implements View.OnClickListener {
         getActivity().setTitle("Calculator");
 
         if (savedInstanceState != null){
-            t.setText(savedInstanceState.getString("prova"));
+            t.setText(savedInstanceState.getString("expr"));
         }
-
+        setHasOptionsMenu(true);
         return v;
     }
 
@@ -106,6 +116,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
         ac.setOnClickListener(this);
         del = (Button) v.findViewById(R.id.delete);
         del.setOnClickListener(this);
+
         t = (TextView) v.findViewById(R.id.text);
     }
 
@@ -176,8 +187,47 @@ public class Calculator extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        switch (id){
+            case R.id.phone_call:
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                String num = (String) t.getText();
+                if(isPhoneNumber(num)){
+                    intent.setData(Uri.parse("tel:"+num));
+                    startActivity(intent);
+                }
+                else infoUser("Not a phone number");
+                break;
+            case R.id.action_toasts:
+                toasts = !toasts;
+                break;
+            case R.id.action_notificacio:
+                state = !state;
+                break;
+            case R.id.wolfram:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.wolframalpha.com/"));
+                startActivity(browserIntent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void infoUser(String msg){
+        if(toasts) Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean isPhoneNumber(String num){
+        if(num.length() != 9) return false;
+        for(int i = 0; i < num.length(); i++){
+            if (num.charAt(i) > '9' || num.charAt(i) < '0') return false;
+        }
+        return true;
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outstate){
         super.onSaveInstanceState(outstate);
-        outstate.putString("prova", t.getText().toString());
+        outstate.putString("expr", t.getText().toString());
     }
 }

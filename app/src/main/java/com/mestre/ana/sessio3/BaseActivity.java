@@ -92,22 +92,34 @@ public class BaseActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public void transaction(){
+        android.support.v4.app.FragmentTransaction FragmentTransaction;
+        FragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction.replace(R.id.fragment_container, fragment);
+        FragmentTransaction.commit();
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_calculator:
                 Calculator calculator = new Calculator();
-                android.support.v4.app.FragmentTransaction FragmentTransaction = getSupportFragmentManager().beginTransaction();
-                FragmentTransaction.replace(R.id.fragment_container, calculator);
-                FragmentTransaction.commit();
-
+                fragment = calculator;
+                transaction();
+                break;
+            case R.id.nav_profile:
+                Profile profile = new Profile();
+                fragment = profile;
+                transaction();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
