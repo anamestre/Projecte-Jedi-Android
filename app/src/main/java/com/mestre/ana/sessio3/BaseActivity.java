@@ -115,6 +115,11 @@ public class BaseActivity extends AppCompatActivity
                 fragment = music;
                 transaction();
                 break;
+            case R.id.nav_ranking:
+                Ranking ran = new Ranking();
+                fragment = ran;
+                transaction();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
