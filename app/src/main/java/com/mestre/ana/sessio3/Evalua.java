@@ -8,98 +8,91 @@ import java.util.StringTokenizer;
 
 public class Evalua {
 
-    private String expr;
+    Evalua(){
 
-    private Stack<Token> operator;
-    private Stack<Token> value;
-    private boolean error;
-
-    Evalua(String expr){
-        this.expr = expr;
-    }
-/*
-
-    private void processOperator(Token t) {
-        Token A = null, B = null;
-        if (value.isEmpty()) {
-            System.out.println("Expression error.");
-            error = true;
-            return;
-        } else {
-            B = value.peek();
-            value.pop();
-        }
-        if (value.isEmpty()) {
-            System.out.println("Expression error.");
-            error = true;
-            return;
-        } else {
-            A = value.peek();
-            value.pop();
-        }
-        Token R = t.operate(A.getValue(), B.getValue());
-        value.push(R);
     }
 
-    public Double processInput(String input) {
-        // The tokens that make up the input
-        String[] parts = input.split(" ");
-        Token[] tokens = new Token[parts.length];
-        for (int n = 0; n < parts.length; n++) {
-            tokens[n] = new Token(parts[n]);
-        }
+    public static double eval(final String str) {
+        return new Object() {
+            int pos = -1, ch;
 
-        // Main loop - process all input tokens
-        for (int n = 0; n < tokens.length; n++) {
-            Token nextToken = tokens[n];
-            if (nextToken.getType() == Token.NUMBER) {
-                value.push(nextToken);
-            } else if (nextToken.getType() == Token.OPERATOR) {
-                if (operator.isEmpty() || nextToken.getPrecedence() > operator.peek().getPrecedence()) {
-                    operator.push(nextToken);
+            void nextChar() {
+                ch = (++pos < str.length()) ? str.charAt(pos) : -1;
+            }
+
+            boolean eat(int charToEat) {
+                while (ch == ' ') nextChar();
+                if (ch == charToEat) {
+                    nextChar();
+                    return true;
+                }
+                return false;
+            }
+
+            double parse() {
+                nextChar();
+                double x = parseExpression();
+                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char) ch);
+                return x;
+            }
+
+            // Grammar:
+            // expression = term | expression `+` term | expression `-` term
+            // term = factor | term `*` factor | term `/` factor
+            // factor = `+` factor | `-` factor | `(` expression `)`
+            //        | number | functionName factor | factor `^` factor
+
+            double parseExpression() {
+                double x = parseTerm();
+                for (; ; ) {
+                    if (eat('+')) x += parseTerm(); // addition
+                    else if (eat('-')) x -= parseTerm(); // subtraction
+                    else return x;
+                }
+            }
+
+            double parseTerm() {
+                double x = parseFactor();
+                for (; ; ) {
+                    if (eat('*')) x *= parseFactor(); // multiplication
+                    else if (eat('/')) x /= parseFactor(); // division
+                    else if (eat('^'))
+                        x = Math.pow(x, parseFactor()); //exponentiation -> Moved in to here. So the problem is fixed
+                    else return x;
+                }
+            }
+
+            double parseFactor() {
+                if (eat('+')) return parseFactor(); // unary plus
+                if (eat('-')) return -parseFactor(); // unary minus
+
+                double x;
+                int startPos = this.pos;
+                if (eat('(')) { // parentheses
+                    x = parseExpression();
+                    eat(')');
+                } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
+                    while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
+                    x = Double.parseDouble(str.substring(startPos, this.pos));
+                } else if (ch >= 'a' && ch <= 'z') { // functions
+                    while (ch >= 'a' && ch <= 'z') nextChar();
+                    String func = str.substring(startPos, this.pos);
+                    x = parseFactor();
+                    if (func.equals("sqrt")) x = Math.sqrt(x);
+                    else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
+                    else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
+                    else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
+                    else throw new RuntimeException("Unknown function: " + func);
                 } else {
-                    while (!operator.isEmpty() && nextToken.getPrecedence() <= operator.peek().getPrecedence()) {
-                        Token toProcess = operator.peek();
-                        operator.pop();
-                        processOperator(toProcess);
-                    }
-                    operator.push(nextToken);
+                    throw new RuntimeException("Unexpected: " + (char) ch);
                 }
-            }
-            else if (nextToken.getType() == Token.LPAREN) operator.push(nextToken);
-            else if (nextToken.getType() == Token.RPAREN) {
-                while (!operator.isEmpty() && operator.peek().getType() == Token.OPERATOR) {
-                    Token toProcess = operator.peek();
-                    operator.pop();
-                    processOperator(toProcess);
-                }
-                if (!operator.isEmpty() && operator.peek().getType() == Token.LPAREN) {
-                    operator.pop();
-                }
-                else {
-                    System.out.println("Error: unbalanced parenthesis.");
-                    error = true;
-                }
-            }
 
-        }
-        // Empty out the operator stack at the end of the input
-        while (!operator.isEmpty() && operator.peek().getType() == Token.OPERATOR) {
-            Token toProcess = operator.peek();
-            operator.pop();
-            processOperator(toProcess);
-        }
-        // Print the result if no error has been seen.
-        if(!error) {
-            Token result = value.peek();
-            value.pop();
-            /*if (!operator.isEmpty() || !value.isEmpty()) {
-                System.out.println("Expression error.");
-            } else {
-                return result.getValue();
+                //if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation -> This is causing a bit of problem
+
+                return x;
             }
-        }
-    } */
+        }.parse();
+    }
 
 
 }

@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Projecte Jedi</string>
-    <string name="multiply">×</string>
-    <string name="divide">÷</string>
+    <string name="multiply">*</string>
+    <string name="divide">/</string>
     <string name="title_activity_base">BaseActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_toasts">Toasts</string>
-    <string name="snackbar">Snackbar</string>
+    <string name="state">State</string>
     <string name="calculator">Calculator</string>
 
     <string name="username">Name</string>

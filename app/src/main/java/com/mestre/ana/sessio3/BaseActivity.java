@@ -1,5 +1,6 @@
 package com.mestre.ana.sessio3;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -112,6 +113,7 @@ public class BaseActivity extends AppCompatActivity
                 break;
             case R.id.nav_music:
                 MusicPlayer music = new MusicPlayer();
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 fragment = music;
                 transaction();
                 break;

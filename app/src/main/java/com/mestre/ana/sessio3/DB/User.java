@@ -10,15 +10,26 @@ public class User {
     private int points;
     private int id_photo;
 
+    public int getId_photo() {
+        return id_photo;
+    }
+
+    public void setId_photo(int id_photo) {
+        this.id_photo = id_photo;
+    }
+
     public long get_id() {
+
         return _id;
     }
 
     public void set_id(long _id) {
+
         this._id = _id;
     }
 
     public String getUsername() {
+
         return username;
     }
 

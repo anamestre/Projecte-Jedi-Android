@@ -183,6 +183,9 @@ public class Calculator extends Fragment implements View.OnClickListener {
             case R.id.rparen:
                 t.setText(expr.concat(")"));
                 break;
+            case R.id.equals:
+                Evalua ev = new Evalua();
+                sol.setText(String.valueOf(ev.eval(t.toString())));
         }
     }
 
