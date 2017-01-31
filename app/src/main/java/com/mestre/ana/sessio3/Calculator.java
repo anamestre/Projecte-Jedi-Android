@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
             t.setText(savedInstanceState.getString("expr"));
         }
 
-        //MenuItem phoneCall = (MenuItem) v.findViewById(R.id.phone_call);
+        //MenuItem phoneCall = (MenuItem) menu.findViewById(R.id.phone_call);
         //phoneCall.setVisible(true);
 
         //MenuItem wolfram = (MenuItem) v.findViewById(R.id.wolfram);
@@ -82,6 +83,13 @@ public class Calculator extends Fragment implements View.OnClickListener {
         setHasOptionsMenu(true);
         return v;
     }
+/*
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        MenuItem phoneCall = (MenuItem) menu.findItem(R.id.phone_call);
+        phoneCall.setVisible(true);
+        return true;
+    } */
 
     public void iniViews(){
         num0 = (Button) v.findViewById(R.id.num0);

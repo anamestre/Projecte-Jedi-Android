@@ -18,10 +18,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
-            android:text="POINTS: "/>
+            android:text="POINTS: "
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id="@+id/points"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
     <TableLayout
@@ -31,66 +35,83 @@
         android:gravity="center">
         <TableRow
             android:layout_gravity= "center">
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_00">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_01">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_02">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_03">
+            </ImageButton>
+
         </TableRow>
 
         <TableRow
             android:layout_gravity= "center">
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_10">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_11">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_12">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_13">
+            </ImageButton>
         </TableRow>
 
         <TableRow
             android:layout_gravity= "center">
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_20">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_21">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_22">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_23">
+            </ImageButton>
         </TableRow>
 
         <TableRow
             android:layout_gravity= "center">
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
-            <ImageView
-                style="@style/memoryImages">
-            </ImageView>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_30">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_31">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_32">
+            </ImageButton>
+            <ImageButton
+                style="@style/memoryImages"
+                android:id="@+id/button_33">
+            </ImageButton>
         </TableRow>
     </TableLayout>
 
