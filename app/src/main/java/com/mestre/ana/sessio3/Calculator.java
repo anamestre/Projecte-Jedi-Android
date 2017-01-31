@@ -3,6 +3,7 @@ package com.mestre.ana.sessio3;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -71,6 +72,13 @@ public class Calculator extends Fragment implements View.OnClickListener {
         if (savedInstanceState != null){
             t.setText(savedInstanceState.getString("expr"));
         }
+
+        //MenuItem phoneCall = (MenuItem) v.findViewById(R.id.phone_call);
+        //phoneCall.setVisible(true);
+
+        //MenuItem wolfram = (MenuItem) v.findViewById(R.id.wolfram);
+        //wolfram.setVisible(true);
+
         setHasOptionsMenu(true);
         return v;
     }

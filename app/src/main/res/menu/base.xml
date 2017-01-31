@@ -20,11 +20,13 @@
     <item
         android:id="@+id/wolfram"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/wolfram">
+        android:icon="@drawable/wolfram"
+        android:visible="false">
     </item>
     <item
         android:id="@+id/phone_call"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_phone">
+        android:icon="@drawable/ic_phone"
+        android:visible="false">
     </item>
 </menu>

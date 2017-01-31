@@ -15,11 +15,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mestre.ana.sessio3.DB.UserData;
+
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
     private Fragment fragment;
+    private UserData usdata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +123,11 @@ public class BaseActivity extends AppCompatActivity
             case R.id.nav_ranking:
                 Ranking ran = new Ranking();
                 fragment = ran;
+                transaction();
+                break;
+            case R.id.nav_memory:
+                Memory mem = new Memory();
+                fragment = mem;
                 transaction();
                 break;
         }

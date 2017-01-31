@@ -27,8 +27,6 @@ public class UserData {
 
     public UserData(Context context) {
         dbHelper = new MySQLiteHelper(context);
-
-
     }
 
     public void open() throws SQLException {
@@ -52,6 +50,7 @@ public class UserData {
         Cursor cursor = database.query(MySQLiteHelper.TABLE_USERS,
                 allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
                 null, null, null);
+
         cursor.moveToFirst();
         User newUser = cursorToUser(cursor);
         cursor.close();
@@ -72,7 +71,7 @@ public class UserData {
         List<User> users = new ArrayList<>();
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_USERS,
-                allColumns, null, null, null, null, MySQLiteHelper.COLUMN_POINTS + " ASC", null);
+                allColumns, null, null, null, null, MySQLiteHelper.COLUMN_POINTS + " DESC", null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

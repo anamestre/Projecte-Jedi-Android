@@ -33,14 +33,8 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // Camps d'un item
         private TextView username;
         private TextView points;
-        private TextView editorial;
-        private TextView categoria;
-        private RatingBar ratingBar;
-        private TextView valoracio;
-
 
         public ViewHolder(View view) {
             super(view);
@@ -50,7 +44,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHold
 
         public void bindUser(User user) {
             username.setText(user.getUsername());
-            points.setText(user.getPoints());
+            points.setText(Integer.toString(user.getPoints()));
         }
 
     }
