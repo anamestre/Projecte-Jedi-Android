@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_weight="1"
         android:background="@android:color/white"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_width="match_parent"
         android:layout_gravity="center"
         android:orientation="horizontal">
@@ -29,89 +29,105 @@
     </LinearLayout>
 
     <TableLayout
-        android:layout_weight="2"
+        android:layout_weight="5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:weightSum="4"
+        android:shrinkColumns="0"
+        >
         <TableRow
-            android:layout_gravity= "center">
-            <ImageButton
+            android:layout_gravity= "center"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:weightSum="4">
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_00">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_01">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_02">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_03">
-            </ImageButton>
+            </ImageView>
 
         </TableRow>
 
         <TableRow
-            android:layout_gravity= "center">
-            <ImageButton
+            android:layout_gravity= "center"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="match_parent">
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_10">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_11">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_12">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_13">
-            </ImageButton>
+            </ImageView>
         </TableRow>
 
         <TableRow
-            android:layout_gravity= "center">
-            <ImageButton
+            android:layout_gravity= "center"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="match_parent">
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_20">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_21">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_22">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_23">
-            </ImageButton>
+            </ImageView>
         </TableRow>
 
         <TableRow
-            android:layout_gravity= "center">
-            <ImageButton
+            android:layout_gravity= "center"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="match_parent">
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_30">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_31">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_32">
-            </ImageButton>
-            <ImageButton
+            </ImageView>
+            <ImageView
                 style="@style/memoryImages"
                 android:id="@+id/button_33">
-            </ImageButton>
+            </ImageView>
         </TableRow>
     </TableLayout>
 
