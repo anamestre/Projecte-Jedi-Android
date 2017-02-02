@@ -34,7 +34,7 @@ public class Ranking extends Fragment {
         getActivity().setTitle("Users ranking");
         UserData usdata = new UserData(getActivity());
         usdata.open();
-        usdata.createHardcodedUsers();
+        if(usdata.getUsersOrderByRanking().size() == 0)usdata.createHardcodedUsers();
 
         for(User u: usdata.getUsersOrderByRanking()){
             Log.i("Username", u.getUsername());

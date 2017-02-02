@@ -1,4 +1,6 @@
 package com.mestre.ana.sessio3;
+import android.util.Log;
+
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -73,6 +75,9 @@ public class Evalua {
                     eat(')');
                 } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
                     while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
+                    Log.i("double", str);
+                    Log.i("double", Integer.toString(startPos));
+                    Log.i("double", Integer.toString(this.pos));
                     x = Double.parseDouble(str.substring(startPos, this.pos));
                 } else if (ch >= 'a' && ch <= 'z') { // functions
                     while (ch >= 'a' && ch <= 'z') nextChar();

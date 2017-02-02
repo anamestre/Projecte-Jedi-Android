@@ -12,6 +12,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +23,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -134,6 +139,24 @@ public class Calculator extends Fragment implements View.OnClickListener {
         del.setOnClickListener(this);
 
         t = (TextView) v.findViewById(R.id.text);
+        sol = (TextView) v.findViewById(R.id.result);
+        t.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sol.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     @Override
@@ -192,6 +215,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
                 break;
             case R.id.ac:
                 if(t.length() > 0) t.setText("");
+                if(sol.length() > 0) sol.setText("");
                 break;
             case R.id.lparen:
                 t.setText(expr.concat("("));
@@ -200,8 +224,8 @@ public class Calculator extends Fragment implements View.OnClickListener {
                 t.setText(expr.concat(")"));
                 break;
             case R.id.equals:
-                Evalua ev = new Evalua();
-                sol.setText(String.valueOf(ev.eval(t.toString())));
+                sol.setText(String.valueOf(Evalua.eval(expr)));
+                break;
         }
     }
 
