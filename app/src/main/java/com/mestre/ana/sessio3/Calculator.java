@@ -78,23 +78,18 @@ public class Calculator extends Fragment implements View.OnClickListener {
         if (savedInstanceState != null){
             t.setText(savedInstanceState.getString("expr"));
         }
-
-        //MenuItem phoneCall = (MenuItem) menu.findViewById(R.id.phone_call);
-        //phoneCall.setVisible(true);
-
-        //MenuItem wolfram = (MenuItem) v.findViewById(R.id.wolfram);
-        //wolfram.setVisible(true);
-
         setHasOptionsMenu(true);
         return v;
     }
-/*
+
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu){
-        MenuItem phoneCall = (MenuItem) menu.findItem(R.id.phone_call);
+    public void onPrepareOptionsMenu(Menu menu){
+        MenuItem phoneCall = menu.findItem(R.id.phone_call);
         phoneCall.setVisible(true);
-        return true;
-    } */
+
+        MenuItem wolfram = menu.findItem(R.id.wolfram);
+        wolfram.setVisible(true);
+    }
 
     public void iniViews(){
         num0 = (Button) v.findViewById(R.id.num0);
@@ -161,71 +156,74 @@ public class Calculator extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v){
-        String expr = (String) t.getText();
-        switch (v.getId()){
-            case R.id.num0:
-                t.setText(expr.concat("0"));
-                break;
-            case R.id.num1:
-                t.setText(expr.concat("1"));
-                break;
-            case R.id.num2:
-                t.setText(expr.concat("2"));
-                break;
-            case R.id.num3:
-                t.setText(expr.concat("3"));
-                break;
-            case R.id.num4:
-                t.setText(expr.concat("4"));
-                break;
-            case R.id.num5:
-                t.setText(expr.concat("5"));
-                break;
-            case R.id.num6:
-                t.setText(expr.concat("6"));
-                break;
-            case R.id.num7:
-                t.setText(expr.concat("7"));
-                break;
-            case R.id.num8:
-                t.setText(expr.concat("8"));
-                break;
-            case R.id.num9:
-                t.setText(expr.concat("9"));
-                break;
-            case R.id.comma:
-                t.setText(expr.concat("."));
-                break;
-            case R.id.divide:
-                String div = (String) getResources().getString(R.string.divide);
-                t.setText(expr.concat(div));
-                break;
-            case R.id.multiply:
-                String multi = (String) getResources().getString(R.string.multiply);
-                t.setText(expr.concat(multi));
-                break;
-            case R.id.plus:
-                t.setText(expr.concat("+"));
-                break;
-            case R.id.substract:
-                t.setText(expr.concat("−"));
-                break;
-            case R.id.delete:
-                if(t.length() > 0) t.setText(expr.substring(0, t.length() - 1));
-                break;
-            case R.id.ac:
-                if(t.length() > 0) t.setText("");
-                if(sol.length() > 0) sol.setText("");
-                break;
-            case R.id.lparen:
-                t.setText(expr.concat("("));
-                break;
-            case R.id.rparen:
-                t.setText(expr.concat(")"));
-                break;
-            case R.id.equals:
-                sol.setText(String.valueOf(Evalua.eval(expr)));
-                break;
+        String expr = t.getText().toString();
+        if(expr.length() > 10) infoUser("Too long expression");
+        else {
+            switch (v.getId()) {
+                case R.id.num0:
+                    t.setText(expr.concat("0"));
+                    break;
+                case R.id.num1:
+                    t.setText(expr.concat("1"));
+                    break;
+                case R.id.num2:
+                    t.setText(expr.concat("2"));
+                    break;
+                case R.id.num3:
+                    t.setText(expr.concat("3"));
+                    break;
+                case R.id.num4:
+                    t.setText(expr.concat("4"));
+                    break;
+                case R.id.num5:
+                    t.setText(expr.concat("5"));
+                    break;
+                case R.id.num6:
+                    t.setText(expr.concat("6"));
+                    break;
+                case R.id.num7:
+                    t.setText(expr.concat("7"));
+                    break;
+                case R.id.num8:
+                    t.setText(expr.concat("8"));
+                    break;
+                case R.id.num9:
+                    t.setText(expr.concat("9"));
+                    break;
+                case R.id.comma:
+                    t.setText(expr.concat("."));
+                    break;
+                case R.id.divide:
+                    String div = (String) getResources().getString(R.string.divide);
+                    t.setText(expr.concat(div));
+                    break;
+                case R.id.multiply:
+                    String multi = (String) getResources().getString(R.string.multiply);
+                    t.setText(expr.concat(multi));
+                    break;
+                case R.id.plus:
+                    t.setText(expr.concat("+"));
+                    break;
+                case R.id.substract:
+                    t.setText(expr.concat("−"));
+                    break;
+                case R.id.delete:
+                    if (t.length() > 0) t.setText(expr.substring(0, t.length() - 1));
+                    break;
+                case R.id.ac:
+                    if (t.length() > 0) t.setText("");
+                    if (sol.length() > 0) sol.setText("");
+                    break;
+                case R.id.lparen:
+                    t.setText(expr.concat("("));
+                    break;
+                case R.id.rparen:
+                    t.setText(expr.concat(")"));
+                    break;
+                case R.id.equals:
+                    sol.setText(String.valueOf(Evalua.eval(expr)));
+                    break;
+            }
         }
     }
 

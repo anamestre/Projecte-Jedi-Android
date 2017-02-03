@@ -10,9 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.security.interfaces.RSAKey;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
@@ -25,6 +30,7 @@ import java.util.logging.LogRecord;
 public class Memory extends Fragment implements View.OnClickListener{
 
     View v;
+    TextView points;
     ArrayList<Integer> cards_ids;
     ArrayList<Integer> new_card;    // New distribution of cards.
     Random rand;
@@ -36,6 +42,8 @@ public class Memory extends Fragment implements View.OnClickListener{
     public int tried;
     public ImageView currentCard;
     public int numCards;
+    public int currentId;
+    public Map<Integer, Boolean> foundIds;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,53 +124,75 @@ public class Memory extends Fragment implements View.OnClickListener{
         b32.setOnClickListener(this);
         b33.setOnClickListener(this);
 
+        points = (TextView) v.findViewById(R.id.tried);
+
         rand = new Random();
-        cards_ids = new ArrayList<>(8);
+        int numberIds = 8;
+        foundIds = new HashMap<>();
+        cards_ids = new ArrayList<>(numberIds);
+
         int id;
         id = R.drawable.memory_1;
         cards_ids.add(id);
+        foundIds.put(id, false);
+
         id = R.drawable.memory_2;
         cards_ids.add(id);
+        foundIds.put(id, false);
+
         id = R.drawable.memory_3;
         cards_ids.add(id);
+        foundIds.put(id, false);
+
         id = R.drawable.memory_4;
         cards_ids.add(id);
+        foundIds.put(id, false);
+
         id = R.drawable.memory_5;
         cards_ids.add(id);
+        foundIds.put(id, false);
+
         id = R.drawable.memory_6;
         cards_ids.add(id);
+        foundIds.put(id, false);
+
         id = R.drawable.memory_7;
         cards_ids.add(id);
+        foundIds.put(id, false);
+
         id = R.drawable.memory_8;
         cards_ids.add(id);
+        foundIds.put(id, false);
 
         tried = 0;
         numCards = 0;
+        currentId = 0;
 
     }
 
 
-    private void refresh(final ImageView image){
+    private void refresh(final ImageView image, int id){
         if(numCards == 0) {
             currentCard = image;
+            currentId = id;
             numCards++;
         }
         else if(numCards == 1){
             tried++;
+            //points.setText(tried);
 
-            if(currentCard != image){
+            if(currentCard != image && id != currentId && foundIds.get(id).equals(false)){
                 android.os.Handler handler = new android.os.Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        currentCard.setImageResource(android.R.color.transparent);
-                        image.setImageResource(android.R.color.transparent);
-                        currentCard.setBackgroundResource(R.drawable.pattern_teal);
-                        image.setBackgroundResource(R.drawable.pattern_teal);
+                        currentCard.setImageResource(R.drawable.mouths);
+                        image.setImageResource(R.drawable.mouths);
                     }
-                },100);
+                },200);
 
             }
+            else foundIds.put(id, true);
             numCards = 0;
         }
     }
@@ -170,73 +200,87 @@ public class Memory extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v){
         int id = v.getId();
-        Drawable pattern = ContextCompat.getDrawable(getActivity(), R.drawable.pattern_teal);
-        pattern.setAlpha(0);
-        v.setBackground(pattern);
+        int id_image;
         switch(id){
             case R.id.button_00:
-                b00.setImageResource(new_card.get(0));
-                refresh(b00);
+                id_image = new_card.get(0);
+                b00.setImageResource(id_image);
+                refresh(b00, id_image);
                 break;
             case R.id.button_01:
-                b01.setImageResource(new_card.get(1));
-                refresh(b01);
+                id_image = new_card.get(1);
+                b01.setImageResource(id_image);
+                refresh(b01, id_image);
                 break;
             case R.id.button_02:
-                b02.setImageResource(new_card.get(2));
-                refresh(b02);
+                id_image = new_card.get(2);
+                b02.setImageResource(id_image);
+                refresh(b02, id_image);
                 break;
             case R.id.button_03:
-                b03.setImageResource(new_card.get(3));
-                refresh(b03);
+                id_image = new_card.get(3);
+                b03.setImageResource(id_image);
+                refresh(b03, id_image);
                 break;
             case R.id.button_10:
-                b10.setImageResource(new_card.get(4));
-                refresh(b10);
+                id_image = new_card.get(4);
+                b10.setImageResource(id_image);
+                refresh(b10, id_image);
                 break;
             case R.id.button_11:
-                b11.setImageResource(new_card.get(5));
-                refresh(b11);
+                id_image = new_card.get(5);
+                b11.setImageResource(id_image);
+                refresh(b11, id_image);
                 break;
             case R.id.button_12:
-                b12.setImageResource(new_card.get(6));
-                refresh(b12);
+                id_image = new_card.get(6);
+                b12.setImageResource(id_image);
+                refresh(b12, id_image);
                 break;
             case R.id.button_13:
-                b13.setImageResource(new_card.get(7));
-                refresh(b13);
+                id_image = new_card.get(7);
+                b13.setImageResource(id_image);
+                refresh(b13, id_image);
                 break;
             case R.id.button_20:
-                b20.setImageResource(new_card.get(8));
-                refresh(b20);
+                id_image = new_card.get(8);
+                b20.setImageResource(id_image);
+                refresh(b20, id_image);
                 break;
             case R.id.button_21:
-                b21.setImageResource(new_card.get(9));
-                refresh(b21);
+                id_image = new_card.get(9);
+                b21.setImageResource(id_image);
+                refresh(b21, id_image);
                 break;
             case R.id.button_22:
-                b22.setImageResource(new_card.get(10));
-                refresh(b22);
+                id_image = new_card.get(10);
+                b22.setImageResource(id_image);
+                refresh(b22, id_image);
                 break;
             case R.id.button_23:
-                b23.setImageResource(new_card.get(11));
-                refresh(b23);
+                id_image = new_card.get(11);
+                b23.setImageResource(id_image);
+                refresh(b23, id_image);
                 break;
             case R.id.button_30:
-                b30.setImageResource(new_card.get(12));
-                refresh(b30);
+                id_image = new_card.get(12);
+                b30.setImageResource(id_image);
+                refresh(b30, id_image);
                 break;
             case R.id.button_31:
-                b31.setImageResource(new_card.get(13));
-                refresh(b31);
+                id_image = new_card.get(13);
+                b31.setImageResource(id_image);
+                refresh(b31, id_image);
                 break;
             case R.id.button_32:
-                b32.setImageResource(new_card.get(14));
-                refresh(b32);
+                id_image = new_card.get(14);
+                b32.setImageResource(id_image);
+                refresh(b32, id_image);
                 break;
             case R.id.button_33:
-                b33.setImageResource(new_card.get(15));
-                refresh(b33);
+                id_image = new_card.get(15);
+                b33.setImageResource(id_image);
+                refresh(b33, id_image);
                 break;
         }
     }

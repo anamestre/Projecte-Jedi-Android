@@ -90,4 +90,9 @@ public class UserData {
         createUser("Juanpetón", 2, 120);
     }
 
+    public User getUser(String username){
+        User us = new User();
+        return us;
+    }
+
 }

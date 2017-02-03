@@ -1,6 +1,7 @@
 package com.mestre.ana.sessio3;
 import android.util.Log;
 
+import java.text.DecimalFormat;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -38,17 +39,12 @@ public class Evalua {
                 return x;
             }
 
-            // Grammar:
-            // expression = term | expression `+` term | expression `-` term
-            // term = factor | term `*` factor | term `/` factor
-            // factor = `+` factor | `-` factor | `(` expression `)`
-            //        | number | functionName factor | factor `^` factor
 
             double parseExpression() {
                 double x = parseTerm();
                 for (; ; ) {
                     if (eat('+')) x += parseTerm(); // addition
-                    else if (eat('-')) x -= parseTerm(); // subtraction
+                    else if (eat('−')) x -= parseTerm(); // subtraction
                     else return x;
                 }
             }
@@ -66,7 +62,7 @@ public class Evalua {
 
             double parseFactor() {
                 if (eat('+')) return parseFactor(); // unary plus
-                if (eat('-')) return -parseFactor(); // unary minus
+                if (eat('−')) return -parseFactor(); // unary minus
 
                 double x;
                 int startPos = this.pos;
@@ -79,7 +75,7 @@ public class Evalua {
                     Log.i("double", Integer.toString(startPos));
                     Log.i("double", Integer.toString(this.pos));
                     x = Double.parseDouble(str.substring(startPos, this.pos));
-                } else if (ch >= 'a' && ch <= 'z') { // functions
+                } /* else if (ch >= 'a' && ch <= 'z') { // functions
                     while (ch >= 'a' && ch <= 'z') nextChar();
                     String func = str.substring(startPos, this.pos);
                     x = parseFactor();
@@ -88,7 +84,7 @@ public class Evalua {
                     else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
                     else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
                     else throw new RuntimeException("Unknown function: " + func);
-                } else {
+                }*/ else {
                     throw new RuntimeException("Unexpected: " + (char) ch);
                 }
 

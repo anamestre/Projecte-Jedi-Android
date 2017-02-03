@@ -1,5 +1,6 @@
 package com.mestre.ana.sessio3;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,22 +15,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.mestre.ana.sessio3.DB.UserData;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import io.fabric.sdk.android.Fabric;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "aCqrloIHCuvw8rX8sON8B551T";
+    private static final String TWITTER_SECRET = "CkkLBIClzyC2w00oHOateou4wxJ2IberPKXWR8WpQEi0T5Gh2s";
+
+
     private Toolbar toolbar;
     private Fragment fragment;
     private UserData usdata;
+    private TextView nav_username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_base);
 
         iniView(savedInstanceState);
+
+        iniNavigationUser();
 
          // Coses de relleno de Android.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -40,6 +55,15 @@ public class BaseActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void iniNavigationUser(){
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("username");
+
+        //nav_username = (TextView) findViewById(R.id.username);
+        //nav_username.setText(username);
+
     }
 
     @Override

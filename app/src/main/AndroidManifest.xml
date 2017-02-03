@@ -13,16 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".BaseActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".BaseActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="9c676f3d7ed77bae2c11d7b9acb43f652e5a63dc"
-            />
+            android:value="9c676f3d7ed77bae2c11d7b9acb43f652e5a63dc" />
     </application>
 </manifest>

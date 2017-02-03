@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Projecte Jedi</string>
+    <string name="app_name">Multitool</string>
     <string name="multiply">*</string>
     <string name="divide">/</string>
     <string name="title_activity_base">BaseActivity</string>
