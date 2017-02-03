@@ -34,6 +34,13 @@ public class BaseActivity extends AppCompatActivity
     private Fragment fragment;
     private UserData usdata;
     private TextView nav_username;
+    private NavigationView nav;
+    private String username;
+
+
+    public String getUsername() {
+        return username;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +66,11 @@ public class BaseActivity extends AppCompatActivity
 
     public void iniNavigationUser(){
         Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
+        username = intent.getStringExtra("username");
 
-        //nav_username = (TextView) findViewById(R.id.username);
-        //nav_username.setText(username);
-
+        nav = (NavigationView) findViewById(R.id.nav_view);
+        nav_username = (TextView) nav.getHeaderView(0).findViewById(R.id.username);
+        nav_username.setText(username);
     }
 
     @Override
@@ -151,6 +158,7 @@ public class BaseActivity extends AppCompatActivity
                 break;
             case R.id.nav_memory:
                 Memory mem = new Memory();
+                mem.setUsername(username);
                 fragment = mem;
                 transaction();
                 break;

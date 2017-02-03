@@ -6,11 +6,15 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.mestre.ana.sessio3.DB.UserData;
 
 import org.w3c.dom.Text;
 
@@ -44,6 +48,9 @@ public class Memory extends Fragment implements View.OnClickListener{
     public int numCards;
     public int currentId;
     public Map<Integer, Boolean> foundIds;
+    public Boolean flip;
+    public int found;
+    public String username;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,8 +61,27 @@ public class Memory extends Fragment implements View.OnClickListener{
 
         iniViews();
         createSecretGrid();
+        setHasOptionsMenu(true);
 
         return v;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu){
+        MenuItem restart = menu.findItem(R.id.restart);
+        restart.setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.restart:
+                iniViews();
+                createSecretGrid();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void createSecretGrid(){
@@ -124,7 +150,28 @@ public class Memory extends Fragment implements View.OnClickListener{
         b32.setOnClickListener(this);
         b33.setOnClickListener(this);
 
+        b00.setImageResource(R.drawable.mouths);
+        b01.setImageResource(R.drawable.mouths);
+        b02.setImageResource(R.drawable.mouths);
+        b03.setImageResource(R.drawable.mouths);
+
+        b10.setImageResource(R.drawable.mouths);
+        b11.setImageResource(R.drawable.mouths);
+        b12.setImageResource(R.drawable.mouths);
+        b13.setImageResource(R.drawable.mouths);
+
+        b20.setImageResource(R.drawable.mouths);
+        b21.setImageResource(R.drawable.mouths);
+        b22.setImageResource(R.drawable.mouths);
+        b23.setImageResource(R.drawable.mouths);
+
+        b30.setImageResource(R.drawable.mouths);
+        b31.setImageResource(R.drawable.mouths);
+        b32.setImageResource(R.drawable.mouths);
+        b33.setImageResource(R.drawable.mouths);
+
         points = (TextView) v.findViewById(R.id.tried);
+        points.setText("");
 
         rand = new Random();
         int numberIds = 8;
@@ -167,33 +214,59 @@ public class Memory extends Fragment implements View.OnClickListener{
         tried = 0;
         numCards = 0;
         currentId = 0;
+        flip = true;
+        found = 0;
 
+
+    }
+
+    public void setUsername(String username){
+        this.username = username;
     }
 
 
     private void refresh(final ImageView image, int id){
-        if(numCards == 0) {
-            currentCard = image;
-            currentId = id;
-            numCards++;
-        }
-        else if(numCards == 1){
-            tried++;
-            //points.setText(tried);
+        if(flip) {
+            image.setImageResource(id);
+            if (numCards == 0) {
+                currentCard = image;
+                currentId = id;
+                numCards++;
+                currentCard.setOnClickListener(null);
+            } else if (numCards == 1) {
+                tried++;
+                points.setText(Integer.toString(tried));
 
-            if(currentCard != image && id != currentId && foundIds.get(id).equals(false)){
-                android.os.Handler handler = new android.os.Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        currentCard.setImageResource(R.drawable.mouths);
-                        image.setImageResource(R.drawable.mouths);
-                    }
-                },200);
+                if (currentCard != image && id != currentId) {
+                    flip = false;
+                    android.os.Handler handler = new android.os.Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            currentCard.setImageResource(R.drawable.mouths);
+                            image.setImageResource(R.drawable.mouths);
+                            flip = true;
+                        }
+                    }, 500);
 
+                    currentCard.setOnClickListener(this);
+
+                } else {
+                    foundIds.put(id, true);
+                    image.setOnClickListener(null);
+                    currentCard.setOnClickListener(null);
+                    found++;
+                }
+                numCards = 0;
             }
-            else foundIds.put(id, true);
-            numCards = 0;
+        }
+        int numberImages = 8;
+        if (found == numberImages) {
+            // Guardar a la base de dades
+            UserData db = new UserData(getActivity());
+            db.open();
+            db.updatePointsUser(tried, username);
+            db.close();
         }
     }
 
@@ -204,82 +277,66 @@ public class Memory extends Fragment implements View.OnClickListener{
         switch(id){
             case R.id.button_00:
                 id_image = new_card.get(0);
-                b00.setImageResource(id_image);
                 refresh(b00, id_image);
                 break;
             case R.id.button_01:
                 id_image = new_card.get(1);
-                b01.setImageResource(id_image);
                 refresh(b01, id_image);
                 break;
             case R.id.button_02:
                 id_image = new_card.get(2);
-                b02.setImageResource(id_image);
                 refresh(b02, id_image);
                 break;
             case R.id.button_03:
                 id_image = new_card.get(3);
-                b03.setImageResource(id_image);
                 refresh(b03, id_image);
                 break;
             case R.id.button_10:
                 id_image = new_card.get(4);
-                b10.setImageResource(id_image);
                 refresh(b10, id_image);
                 break;
             case R.id.button_11:
                 id_image = new_card.get(5);
-                b11.setImageResource(id_image);
                 refresh(b11, id_image);
                 break;
             case R.id.button_12:
                 id_image = new_card.get(6);
-                b12.setImageResource(id_image);
                 refresh(b12, id_image);
                 break;
             case R.id.button_13:
                 id_image = new_card.get(7);
-                b13.setImageResource(id_image);
                 refresh(b13, id_image);
                 break;
             case R.id.button_20:
-                id_image = new_card.get(8);
-                b20.setImageResource(id_image);
+                id_image = new_card.get(8);;
                 refresh(b20, id_image);
                 break;
             case R.id.button_21:
                 id_image = new_card.get(9);
-                b21.setImageResource(id_image);
                 refresh(b21, id_image);
                 break;
             case R.id.button_22:
                 id_image = new_card.get(10);
-                b22.setImageResource(id_image);
                 refresh(b22, id_image);
                 break;
             case R.id.button_23:
                 id_image = new_card.get(11);
-                b23.setImageResource(id_image);
                 refresh(b23, id_image);
                 break;
             case R.id.button_30:
                 id_image = new_card.get(12);
-                b30.setImageResource(id_image);
                 refresh(b30, id_image);
                 break;
             case R.id.button_31:
                 id_image = new_card.get(13);
-                b31.setImageResource(id_image);
                 refresh(b31, id_image);
                 break;
             case R.id.button_32:
                 id_image = new_card.get(14);
-                b32.setImageResource(id_image);
                 refresh(b32, id_image);
                 break;
             case R.id.button_33:
                 id_image = new_card.get(15);
-                b33.setImageResource(id_image);
                 refresh(b33, id_image);
                 break;
         }

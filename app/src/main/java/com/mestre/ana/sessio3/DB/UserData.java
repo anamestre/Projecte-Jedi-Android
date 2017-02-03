@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +40,10 @@ public class UserData {
 
     public User createUser(String username, int id_photo, int points) {
         ContentValues values = new ContentValues();
-
         values.put(MySQLiteHelper.COLUMN_USERNAME, username);
         values.put(MySQLiteHelper.COLUMN_POINTS, points);
         values.put(MySQLiteHelper.COLUMN_ID_PHOTO, id_photo);
+        Log.i("Usuari", "creant usuari " + username);
 
         // Actual insertion of the data using the values variable
         long insertId = database.insert(MySQLiteHelper.TABLE_USERS, null, values);
@@ -93,6 +94,11 @@ public class UserData {
     public User getUser(String username){
         User us = new User();
         return us;
+    }
+
+    public void updatePointsUser(int points, String username){
+        String query = "UPDATE USERS SET POINTS = " + points + " WHERE USERNAME = " + username;
+        database.execSQL(query);
     }
 
 }

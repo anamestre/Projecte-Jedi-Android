@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <group android:checkableBehavior="all">
+    <group android:checkableBehavior="all"
+        android:id="@+id/notifications"
+        android:visible="false">
         <item
             android:id="@+id/action_toasts"
             android:orderInCategory="100"
@@ -27,6 +29,12 @@
         android:id="@+id/phone_call"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_phone"
+        android:visible="false">
+    </item>
+    <item
+        android:id="@+id/restart"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_restart"
         android:visible="false">
     </item>
 </menu>

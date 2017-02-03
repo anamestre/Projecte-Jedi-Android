@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.view.menu.MenuView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -89,6 +90,8 @@ public class Calculator extends Fragment implements View.OnClickListener {
 
         MenuItem wolfram = menu.findItem(R.id.wolfram);
         wolfram.setVisible(true);
+
+        menu.setGroupVisible(R.id.notifications, true);
     }
 
     public void iniViews(){
@@ -132,6 +135,9 @@ public class Calculator extends Fragment implements View.OnClickListener {
         ac.setOnClickListener(this);
         del = (Button) v.findViewById(R.id.delete);
         del.setOnClickListener(this);
+
+        toasts = false;
+        state = false;
 
         t = (TextView) v.findViewById(R.id.text);
         sol = (TextView) v.findViewById(R.id.result);
@@ -233,7 +239,7 @@ public class Calculator extends Fragment implements View.OnClickListener {
         switch (id){
             case R.id.phone_call:
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                String num = (String) t.getText();
+                String num = t.getText().toString();
                 if(isPhoneNumber(num)){
                     intent.setData(Uri.parse("tel:"+num));
                     startActivity(intent);
@@ -242,9 +248,11 @@ public class Calculator extends Fragment implements View.OnClickListener {
                 break;
             case R.id.action_toasts:
                 toasts = !toasts;
+                item.setChecked(toasts);
                 break;
             case R.id.action_notificacio:
                 state = !state;
+                item.setChecked(state);
                 break;
             case R.id.wolfram:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.wolframalpha.com/"));
