@@ -218,6 +218,8 @@ public class Memory extends Fragment implements View.OnClickListener{
         found = 0;
 
 
+
+
     }
 
     public void setUsername(String username){
@@ -263,10 +265,10 @@ public class Memory extends Fragment implements View.OnClickListener{
         int numberImages = 8;
         if (found == numberImages) {
             // Guardar a la base de dades
-            UserData db = new UserData(getActivity());
+            /*UserData db = new UserData(getActivity());
             db.open();
             db.updatePointsUser(tried, username);
-            db.close();
+            db.close(); */
         }
     }
 

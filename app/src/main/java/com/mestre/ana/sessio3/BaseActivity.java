@@ -1,12 +1,12 @@
 package com.mestre.ana.sessio3;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.mestre.ana.sessio3.DB.UserData;
+import com.mestre.ana.sessio3.MusicPlayer.MusicPlayer;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;
@@ -35,10 +36,10 @@ public class BaseActivity extends AppCompatActivity
     private UserData usdata;
     private TextView nav_username;
     private NavigationView nav;
-    private String username;
+    public static String username;
 
 
-    public String getUsername() {
+    public static String getUsername() {
         return username;
     }
 
@@ -52,6 +53,7 @@ public class BaseActivity extends AppCompatActivity
         iniView(savedInstanceState);
 
         iniNavigationUser();
+        askPermissions();
 
          // Coses de relleno de Android.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -62,6 +64,15 @@ public class BaseActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void askPermissions(){
+        if(Build.VERSION.SDK_INT >= 23){
+            int hasExternalStoragePermission = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (hasExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+            }
+        }
     }
 
     public void iniNavigationUser(){
@@ -158,7 +169,6 @@ public class BaseActivity extends AppCompatActivity
                 break;
             case R.id.nav_memory:
                 Memory mem = new Memory();
-                mem.setUsername(username);
                 fragment = mem;
                 transaction();
                 break;

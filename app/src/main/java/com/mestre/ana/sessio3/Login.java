@@ -54,7 +54,7 @@ public class Login extends Activity {
                 User user = db.getUser(username);
                 if(user != null) userLogIn(username);
                 else {
-                    db.createUser(username, 0, 0);
+                    db.createUser(username, 0);
                     userLogIn(username);
                 }
             }
