@@ -42,6 +42,10 @@ public class MusicPlayer extends Fragment implements MediaPlayerControl {
     private MusicPlayerService music_service;
     private Intent intent;
     private boolean bound = false;
+    private MusicController controller;
+    private SongAdapter songAdt;
+
+    private boolean paused = false, playbackPaused = false;
 
     public MusicPlayer(){
 
@@ -56,8 +60,9 @@ public class MusicPlayer extends Fragment implements MediaPlayerControl {
 
         ini();
         getSongs();
+        setController();
 
-        SongAdapter songAdt = new SongAdapter(getActivity(), songs);
+        songAdt = new SongAdapter(getActivity(), songs);
         songView.setAdapter(songAdt);
 
         Collections.sort(songs, new Comparator<Song>(){
@@ -67,17 +72,6 @@ public class MusicPlayer extends Fragment implements MediaPlayerControl {
         });
 
         return v;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.action_shuffle:
-                getActivity().stopService(intent);
-                music_service = null;
-                System.exit(0);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private ServiceConnection musicConnection = new ServiceConnection(){
@@ -100,6 +94,9 @@ public class MusicPlayer extends Fragment implements MediaPlayerControl {
     public void ini(){
         songView = (ListView) v.findViewById(R.id.song_list);
         songs = new ArrayList<Song>();
+
+
+
     }
 
     public void getSongs() {
@@ -139,17 +136,146 @@ public class MusicPlayer extends Fragment implements MediaPlayerControl {
         }
     }
 
-    public void songPicked(View view){
-        music_service.setSong(Integer.parseInt(view.getTag().toString()));
-        music_service.play();
-    }
-
     @Override
     public void onDestroy() {
         getActivity().stopService(intent);
         music_service = null;
         super.onDestroy();
     }
+
+    private void setController(){
+        controller = new MusicController(getActivity());
+        controller.setPrevNextListeners(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playNext();
+            }
+        }, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playPrev();
+            }
+        });
+
+        controller.setMediaPlayer(this);
+        controller.setAnchorView(v.findViewById(R.id.song_list));
+        controller.setEnabled(true);
+    }
+
+
+    @Override
+    public boolean canPause() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekBackward() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekForward() {
+        return true;
+    }
+
+    @Override
+    public int getAudioSessionId() {
+        return 0;
+    }
+
+    @Override
+    public int getBufferPercentage() {
+        return 0;
+    }
+
+    @Override
+    public int getCurrentPosition() {
+        if (music_service!=null && bound && music_service.isPng()){
+            return music_service.getPosn();
+        }
+        else return 0;
+    }
+
+    @Override
+    public int getDuration() {
+        if(music_service!=null && bound && music_service.isPng())
+            return music_service.getDur();
+        else return 0;
+    }
+
+    @Override
+    public boolean isPlaying() {
+        if(music_service!=null && bound)
+            return music_service.isPng();
+        return false;
+    }
+
+    @Override
+    public void pause() {
+        playbackPaused=true;
+        music_service.pausePlayer();
+    }
+
+    @Override
+    public void seekTo(int pos) {
+        music_service.seek(pos);
+    }
+
+    @Override
+    public void start() {
+        music_service.go();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        paused=true;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(paused){
+            setController();
+            paused=false;
+        }
+    }
+
+    @Override
+    public void onStop() {
+        controller.hide();
+        super.onStop();
+    }
+
+    private void playNext(){
+        music_service.playNext();
+        if(playbackPaused){
+            setController();
+            playbackPaused=false;
+        }
+        controller.show(0);
+    }
+
+    private void playPrev(){
+        music_service.playPrev();
+        if(playbackPaused){
+            setController();
+            playbackPaused=false;
+        }
+        controller.show(0);
+    }
+
+
+    public void songPicked(View view){
+        music_service.setSong(Integer.parseInt(view.getTag().toString()));
+        music_service.play();
+        if(playbackPaused){
+            setController();
+            playbackPaused=false;
+        }
+        controller.show(0);
+    }
+
 
 
 }
