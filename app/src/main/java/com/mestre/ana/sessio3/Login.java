@@ -9,10 +9,12 @@ import android.widget.Toast;
 
 import com.mestre.ana.sessio3.DB.User;
 import com.mestre.ana.sessio3.DB.UserData;
+
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.*;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.*;
+import com.twitter.sdk.android.core.internal.TwitterApi;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -46,11 +48,8 @@ public class Login extends Activity {
                 // The TwitterSession is also available through:
                 // Twitter.getInstance().core.getSessionManager().getActiveSession()
                 TwitterSession session = result.data;
-                // with your app's user model
-                //String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
-                //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-
                 String username = session.getUserName();
+                //String image = session.
                 User user = db.getUser(username);
                 if(user != null) userLogIn(username);
                 else {
@@ -80,6 +79,5 @@ public class Login extends Activity {
         intent.putExtra("username", username);
         startActivity(intent);
     }
-
 
 }

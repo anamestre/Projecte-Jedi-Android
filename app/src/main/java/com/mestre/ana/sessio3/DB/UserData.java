@@ -64,7 +64,7 @@ public class UserData {
         user.set_id(cursor.getLong(0));
         user.setUsername(cursor.getString(1));
         user.setPoints(cursor.getInt(2));
-        user.setId_photo(cursor.getInt(3));
+        user.setId_photo(cursor.getString(3));
         return user;
     }
 

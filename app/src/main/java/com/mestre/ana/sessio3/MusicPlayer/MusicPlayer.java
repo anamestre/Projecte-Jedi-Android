@@ -94,9 +94,6 @@ public class MusicPlayer extends Fragment implements MediaPlayerControl {
     public void ini(){
         songView = (ListView) v.findViewById(R.id.song_list);
         songs = new ArrayList<Song>();
-
-
-
     }
 
     public void getSongs() {
@@ -144,7 +141,7 @@ public class MusicPlayer extends Fragment implements MediaPlayerControl {
     }
 
     private void setController(){
-        controller = new MusicController(getActivity());
+        if(controller == null) controller = new MusicController(getActivity());
         controller.setPrevNextListeners(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,7 +209,7 @@ public class MusicPlayer extends Fragment implements MediaPlayerControl {
 
     @Override
     public void pause() {
-        playbackPaused=true;
+        playbackPaused = true;
         music_service.pausePlayer();
     }
 
@@ -271,10 +268,11 @@ public class MusicPlayer extends Fragment implements MediaPlayerControl {
         music_service.play();
         if(playbackPaused){
             setController();
-            playbackPaused=false;
+            playbackPaused = false;
         }
         controller.show(0);
     }
+
 
 
 

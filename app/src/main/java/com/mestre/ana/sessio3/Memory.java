@@ -217,14 +217,10 @@ public class Memory extends Fragment implements View.OnClickListener{
         flip = true;
         found = 0;
 
-
-
+        username = ((BaseActivity) getActivity()).getCurrentUser().getUsername();
 
     }
 
-    public void setUsername(String username){
-        this.username = username;
-    }
 
 
     private void refresh(final ImageView image, int id){
@@ -265,10 +261,11 @@ public class Memory extends Fragment implements View.OnClickListener{
         int numberImages = 8;
         if (found == numberImages) {
             // Guardar a la base de dades
-            /*UserData db = new UserData(getActivity());
+            UserData db = new UserData(getActivity());
             db.open();
-            db.updatePointsUser(tried, username);
-            db.close(); */
+            int old_points = db.getUser(username).getPoints();
+            if(tried < old_points || old_points == 0) db.updatePointsUser(tried, username);
+            db.close();
         }
     }
 

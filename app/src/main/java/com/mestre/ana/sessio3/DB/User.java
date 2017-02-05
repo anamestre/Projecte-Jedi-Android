@@ -8,13 +8,13 @@ public class User {
     private long _id;
     private String username;
     private int points;
-    private int id_photo;
+    private String id_photo;
 
-    public int getId_photo() {
+    public String getId_photo() {
         return id_photo;
     }
 
-    public void setId_photo(int id_photo) {
+    public void setId_photo(String id_photo) {
         this.id_photo = id_photo;
     }
 

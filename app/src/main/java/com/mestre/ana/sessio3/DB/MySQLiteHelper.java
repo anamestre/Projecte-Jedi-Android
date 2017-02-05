@@ -18,13 +18,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID_PHOTO = "id_photo";
 
     private static final String DATABASE_NAME = "users.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     private static final String DATABASE_CREATE = "create table " + TABLE_USERS + "( "
             + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_USERNAME + " text not null, "
             + COLUMN_POINTS + " integer, "
-            + COLUMN_ID_PHOTO + " integer not null "
+            + COLUMN_ID_PHOTO + " string "
             + ");";
 
     public MySQLiteHelper(Context context) {

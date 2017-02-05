@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.mestre.ana.sessio3.DB.User;
 import com.mestre.ana.sessio3.DB.UserData;
 import com.mestre.ana.sessio3.MusicPlayer.MusicPlayer;
 import com.twitter.sdk.android.Twitter;
@@ -37,11 +38,16 @@ public class BaseActivity extends AppCompatActivity
     private UserData usdata;
     private TextView nav_username;
     private NavigationView nav;
-    public static String username;
+    public String username;
+    private User currentUser;
 
 
-    public static String getUsername() {
+    public String getUsername() {
         return username;
+    }
+
+    public User getCurrentUser(){
+        return currentUser;
     }
 
     @Override
@@ -79,6 +85,11 @@ public class BaseActivity extends AppCompatActivity
     public void iniNavigationUser(){
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
+
+        usdata = new UserData(this);
+        usdata.open();
+        currentUser = usdata.getUser(username);
+        usdata.close();
 
         nav = (NavigationView) findViewById(R.id.nav_view);
         nav_username = (TextView) nav.getHeaderView(0).findViewById(R.id.username);
@@ -139,7 +150,6 @@ public class BaseActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
