@@ -1,9 +1,12 @@
 package com.mestre.ana.sessio3;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,14 +16,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mestre.ana.sessio3.DB.User;
 import com.mestre.ana.sessio3.DB.UserData;
+import com.mestre.ana.sessio3.MusicPlayer.MusicController;
 import com.mestre.ana.sessio3.MusicPlayer.MusicPlayer;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.Twitter;
@@ -33,6 +39,7 @@ public class BaseActivity extends AppCompatActivity
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "aCqrloIHCuvw8rX8sON8B551T";
     private static final String TWITTER_SECRET = "CkkLBIClzyC2w00oHOateou4wxJ2IberPKXWR8WpQEi0T5Gh2s";
+    private static final String PREFS_NAME = "User_sharedPreferences";
 
 
     private Toolbar toolbar;
@@ -43,6 +50,15 @@ public class BaseActivity extends AppCompatActivity
     private NavigationView nav;
     public String username;
     private User currentUser;
+    private Boolean logIn;
+    private MusicController musicController;
+
+    private MenuItem toast;
+    private MenuItem state;
+
+    public MusicController getMusicController(){
+        return this.musicController;
+    }
 
 
     public String getUsername() {
@@ -90,6 +106,8 @@ public class BaseActivity extends AppCompatActivity
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
 
+        logIn = true;
+
         usdata = new UserData(this);
         usdata.open();
         currentUser = usdata.getUser(username);
@@ -108,6 +126,8 @@ public class BaseActivity extends AppCompatActivity
 
     }
 
+
+
     @Override
     public void onSaveInstanceState(Bundle outstate){
         super.onSaveInstanceState(outstate);
@@ -122,6 +142,8 @@ public class BaseActivity extends AppCompatActivity
     }
 
     public void iniView(Bundle savedInstancesState){
+
+        musicController = new MusicController(this);
 
         if(savedInstancesState != null) {
             fragment = getSupportFragmentManager().getFragment(savedInstancesState, "fragment");
@@ -157,9 +179,17 @@ public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+    public boolean onPrepareOptionsMenu(Menu menu){
+        toast = menu.findItem(R.id.action_toasts);
+        state = menu.findItem(R.id.action_notificacio);
 
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //int id = item.getItemId();
+        //refreshSharedPreferences();
         return super.onOptionsItemSelected(item);
     }
 
@@ -170,30 +200,48 @@ public class BaseActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_calculator:
+                musicController.setVisibility(View.INVISIBLE);
                 Calculator calculator = new Calculator();
                 fragment = calculator;
                 transaction();
                 break;
             case R.id.nav_profile:
+                musicController.setVisibility(View.INVISIBLE);
                 Profile profile = new Profile();
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 fragment = profile;
                 transaction();
                 break;
             case R.id.nav_music:
+                musicController.setVisibility(View.VISIBLE);
                 MusicPlayer music = new MusicPlayer();
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 fragment = music;
                 transaction();
                 break;
             case R.id.nav_ranking:
+                musicController.setVisibility(View.INVISIBLE);
                 Ranking ran = new Ranking();
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 fragment = ran;
                 transaction();
                 break;
             case R.id.nav_memory:
+                musicController.setVisibility(View.INVISIBLE);
                 Memory mem = new Memory();
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 fragment = mem;
                 transaction();
+                break;
+            case R.id.nav_log_out:
+                musicController.setVisibility(View.INVISIBLE);
+                logIn = false;
+                SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = preferences.edit();
+                edit.putBoolean("logIn", false);
+                edit.apply();
+                Intent intent = new Intent(this, Login.class);
+                startActivity(intent);
                 break;
         }
 
@@ -206,5 +254,6 @@ public class BaseActivity extends AppCompatActivity
         MusicPlayer mp = (MusicPlayer) fragment;
         mp.songPicked(v);
     }
+
 
 }

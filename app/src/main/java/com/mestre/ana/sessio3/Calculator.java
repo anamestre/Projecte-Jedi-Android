@@ -25,6 +25,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mestre.ana.sessio3.DB.User;
+import com.mestre.ana.sessio3.DB.UserData;
+
 import org.w3c.dom.Text;
 
 /**
@@ -61,6 +64,9 @@ public class Calculator extends Fragment implements View.OnClickListener {
     public boolean toasts;
     public boolean state;
 
+    private MenuItem menu_toast;
+    private MenuItem menu_state;
+
 
     public Calculator() {
         // Required empty public constructor
@@ -75,11 +81,15 @@ public class Calculator extends Fragment implements View.OnClickListener {
         v =  inflater.inflate(R.layout.activity_main, container, false);
         iniViews();
         getActivity().setTitle("Calculator");
+        setHasOptionsMenu(true);
 
         if (savedInstanceState != null){
             t.setText(savedInstanceState.getString("expr"));
+            sol.setText(savedInstanceState.getString("sol"));
+            //menu_state.setChecked(savedInstanceState.getBoolean("state"));
+            //menu_toast.setChecked(savedInstanceState.getBoolean("toast"));
         }
-        setHasOptionsMenu(true);
+
         return v;
     }
 
@@ -91,7 +101,12 @@ public class Calculator extends Fragment implements View.OnClickListener {
         MenuItem wolfram = menu.findItem(R.id.wolfram);
         wolfram.setVisible(true);
 
+        menu_state = menu.findItem(R.id.action_notificacio);
+        menu_toast = menu.findItem(R.id.action_toasts);
+
         menu.setGroupVisible(R.id.notifications, true);
+
+
     }
 
     public void iniViews(){
@@ -136,8 +151,9 @@ public class Calculator extends Fragment implements View.OnClickListener {
         del = (Button) v.findViewById(R.id.delete);
         del.setOnClickListener(this);
 
-        toasts = false;
-        state = false;
+        User us = ((BaseActivity) getActivity()).getCurrentUser();
+        toasts = (us.getToasts() == 1);
+        state = (us.getState() ==  1);
 
         t = (TextView) v.findViewById(R.id.text);
         sol = (TextView) v.findViewById(R.id.result);
@@ -227,7 +243,13 @@ public class Calculator extends Fragment implements View.OnClickListener {
                     t.setText(expr.concat(")"));
                     break;
                 case R.id.equals:
-                    sol.setText(String.valueOf(Evalua.eval(expr)));
+                    try{
+                        Double ans = Evalua.eval(expr);
+                        sol.setText(String.valueOf(ans));
+                    }
+                    catch (RuntimeException e){
+                        infoUser("Invalid syntax");
+                    }
                     break;
             }
         }
@@ -236,6 +258,11 @@ public class Calculator extends Fragment implements View.OnClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
+        UserData db = new UserData(getActivity());
+        db.open();
+
+        String username = ((BaseActivity)getActivity()).getUsername();
+
         switch (id){
             case R.id.phone_call:
                 Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -249,16 +276,21 @@ public class Calculator extends Fragment implements View.OnClickListener {
             case R.id.action_toasts:
                 toasts = !toasts;
                 item.setChecked(toasts);
+                if(toasts) db.updateToast(1, username);
+                else db.updateToast(0, username);
                 break;
             case R.id.action_notificacio:
                 state = !state;
                 item.setChecked(state);
+                if(state) db.updateState(1, username);
+                else db.updateState(0, username);
                 break;
             case R.id.wolfram:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.wolframalpha.com/"));
                 startActivity(browserIntent);
                 break;
         }
+        db.close();
         return super.onOptionsItemSelected(item);
     }
 
@@ -278,5 +310,8 @@ public class Calculator extends Fragment implements View.OnClickListener {
     public void onSaveInstanceState(Bundle outstate){
         super.onSaveInstanceState(outstate);
         outstate.putString("expr", t.getText().toString());
+        outstate.putString("sol", sol.getText().toString());
+        outstate.putBoolean("toast", toasts);
+        outstate.putBoolean("state", state);
     }
 }

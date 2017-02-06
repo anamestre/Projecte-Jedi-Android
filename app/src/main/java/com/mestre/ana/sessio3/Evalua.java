@@ -54,8 +54,8 @@ public class Evalua {
                 for (; ; ) {
                     if (eat('*')) x *= parseFactor(); // multiplication
                     else if (eat('/')) x /= parseFactor(); // division
-                    else if (eat('^'))
-                        x = Math.pow(x, parseFactor()); //exponentiation -> Moved in to here. So the problem is fixed
+                    //else if (eat('^'))
+                     //   x = Math.pow(x, parseFactor()); //exponentiation -> Moved in to here. So the problem is fixed
                     else return x;
                 }
             }
@@ -71,9 +71,6 @@ public class Evalua {
                     eat(')');
                 } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
                     while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
-                    Log.i("double", str);
-                    Log.i("double", Integer.toString(startPos));
-                    Log.i("double", Integer.toString(this.pos));
                     x = Double.parseDouble(str.substring(startPos, this.pos));
                 } /* else if (ch >= 'a' && ch <= 'z') { // functions
                     while (ch >= 'a' && ch <= 'z') nextChar();

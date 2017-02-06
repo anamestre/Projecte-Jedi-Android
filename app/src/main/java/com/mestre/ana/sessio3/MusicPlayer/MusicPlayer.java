@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+
+import com.mestre.ana.sessio3.BaseActivity;
 import com.mestre.ana.sessio3.MusicPlayer.MusicPlayerService.MusicBinder;
 import android.os.Build;
 import android.os.Bundle;
@@ -141,7 +143,7 @@ public class MusicPlayer extends Fragment implements MediaPlayerControl {
     }
 
     private void setController(){
-        if(controller == null) controller = new MusicController(getActivity());
+        if(controller == null) controller = ((BaseActivity) getActivity()).getMusicController();
         controller.setPrevNextListeners(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

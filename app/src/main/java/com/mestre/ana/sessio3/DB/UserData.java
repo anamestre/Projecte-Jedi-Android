@@ -41,8 +41,8 @@ public class UserData {
     public User createUser(String username) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_USERNAME, username);
-        //values.put(MySQLiteHelper.COLUMN_POINTS, null);
-        //values.put(MySQLiteHelper.COLUMN_ID_PHOTO, id_photo);
+        values.put(MySQLiteHelper.COLUMN_TOASTS, 0);
+        values.put(MySQLiteHelper.COLUMN_STATE, 0);
         Log.i("Usuari", "creant usuari: " + username);
 
         // Actual insertion of the data using the values variable
@@ -65,6 +65,8 @@ public class UserData {
         user.setUsername(cursor.getString(1));
         user.setPoints(cursor.getInt(2));
         user.setId_photo(cursor.getString(3));
+        user.setToasts(0);
+        user.setState(0);
         return user;
     }
 
@@ -72,7 +74,7 @@ public class UserData {
         List<User> users = new ArrayList<>();
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_USERS,
-                allColumns, null, null, null, null, MySQLiteHelper.COLUMN_POINTS + " DESC", null);
+                allColumns, null, null, null, null, MySQLiteHelper.COLUMN_POINTS + " ASC", null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -84,12 +86,6 @@ public class UserData {
         cursor.close();
         return users;
     }
-
-    /*public void createHardcodedUsers() {
-        createUser("Ana Mestre", 0, 125);
-        createUser("ChuloIsMyPerro", 1, 80);
-        createUser("Juanpetón", 2, 120);
-    }*/
 
     public User getUser(String username){
         Cursor cursor = database.query(MySQLiteHelper.TABLE_USERS,
@@ -112,6 +108,22 @@ public class UserData {
     public void updateImage(String image, String username){
         String query = "UPDATE USERS SET ID_PHOTO = '" + image + "' WHERE USERNAME = '" + username + "'";
         database.execSQL(query);
+    }
+
+    public void updateToast(int toast, String username){
+        String query = "UPDATE USERS SET TOASTS = " + toast + " WHERE USERNAME = '" + username + "'";
+        database.execSQL(query);
+    }
+
+    public void updateState(int state, String username){
+        String query = "UPDATE USERS SET STATE = " + state + " WHERE USERNAME = '" + username + "'";
+        database.execSQL(query);
+    }
+
+    public void resetPoints(){
+        String query = "UPDATE USERS SET POINTS = 0";
+        database.execSQL(query);
+
     }
 
 }

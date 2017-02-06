@@ -16,15 +16,19 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_USERNAME = "username";
     public static final String COLUMN_POINTS = "points";
     public static final String COLUMN_ID_PHOTO = "id_photo";
+    public static final String COLUMN_TOASTS = "toasts";
+    public static final String COLUMN_STATE = "state";
 
     private static final String DATABASE_NAME = "users.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
 
     private static final String DATABASE_CREATE = "create table " + TABLE_USERS + "( "
             + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_USERNAME + " text not null, "
             + COLUMN_POINTS + " integer, "
-            + COLUMN_ID_PHOTO + " string "
+            + COLUMN_ID_PHOTO + " string, "
+            + COLUMN_TOASTS + " integer, "
+            + COLUMN_STATE + " integer "
             + ");";
 
     public MySQLiteHelper(Context context) {

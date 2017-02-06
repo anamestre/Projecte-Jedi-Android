@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,6 +23,7 @@ public class Ranking extends Fragment {
     private View v;
     private RecyclerView rv;
     private RankingAdapter adapter;
+    private  UserData usdata;
 
     public Ranking(){
 
@@ -32,9 +35,9 @@ public class Ranking extends Fragment {
 
         v =  inflater.inflate(R.layout.ranking_layout, container, false);
         getActivity().setTitle("Users ranking");
-        UserData usdata = new UserData(getActivity());
+        usdata = new UserData(getActivity());
         usdata.open();
-        //if(usdata.getUsersOrderByRanking().size() == 0)usdata.createHardcodedUsers();
+
 
         for(User u: usdata.getUsersOrderByRanking()){
             Log.i("Username", u.getUsername());
@@ -47,7 +50,22 @@ public class Ranking extends Fragment {
         adapter = new RankingAdapter(getActivity(), usdata.getUsersOrderByRanking());
         rv.setAdapter(adapter);
 
+        setHasOptionsMenu(true);
+
         return v;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu){
+        MenuItem restart = menu.findItem(R.id.restart);
+        restart.setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.restart) usdata.resetPoints();
+        return super.onOptionsItemSelected(item);
     }
 
 }

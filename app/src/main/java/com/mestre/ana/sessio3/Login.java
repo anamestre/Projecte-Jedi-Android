@@ -1,7 +1,9 @@
 package com.mestre.ana.sessio3;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,40 +30,57 @@ public class Login extends Activity {
     private static final String TWITTER_KEY = "aCqrloIHCuvw8rX8sON8B551T";
     private static final String TWITTER_SECRET = "CkkLBIClzyC2w00oHOateou4wxJ2IberPKXWR8WpQEi0T5Gh2s";
     private TwitterLoginButton loginButton;
+    private static final String PREFS_NAME = "User_sharedPreferences";
 
     private UserData db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
-        setContentView(R.layout.login_layout);
 
-        db = new UserData(this);
-        db.open();
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        boolean logIn = settings.getBoolean("logIn", false);
+        String username = settings.getString("username", "");
 
-        loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
-        loginButton.setCallback(new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> result) {
-                // The TwitterSession is also available through:
-                // Twitter.getInstance().core.getSessionManager().getActiveSession()
-                TwitterSession session = result.data;
-                String username = session.getUserName();
-                //String image = session.
-                User user = db.getUser(username);
-                if(user != null) userLogIn(username);
-                else {
-                    db.createUser(username);
-                    userLogIn(username);
+        if(logIn) userLogIn(username);
+        else {
+            TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+            Fabric.with(this, new Twitter(authConfig));
+            setContentView(R.layout.login_layout);
+
+            db = new UserData(this);
+            db.open();
+
+            loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
+            loginButton.setCallback(new Callback<TwitterSession>() {
+                @Override
+                public void success(Result<TwitterSession> result) {
+                    // The TwitterSession is also available through:
+                    // Twitter.getInstance().core.getSessionManager().getActiveSession()
+                    TwitterSession session = result.data;
+                    String username = session.getUserName();
+                    User user = db.getUser(username);
+
+                    SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = preferences.edit();
+                    edit.putBoolean("logIn", true);
+                    edit.putString("username", username);
+                    edit.apply();
+
+                    if (user != null) userLogIn(username);
+                    else {
+                        db.createUser(username);
+                        userLogIn(username);
+                    }
+
                 }
-            }
-            @Override
-            public void failure(TwitterException exception) {
-                Log.d("TwitterKit", "Login with Twitter failure", exception);
-            }
-        });
+
+                @Override
+                public void failure(TwitterException exception) {
+                    Log.d("TwitterKit", "Login with Twitter failure", exception);
+                }
+            });
+        }
 
 
     }

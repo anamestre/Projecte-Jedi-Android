@@ -73,7 +73,7 @@ public class Profile extends Fragment {
         else points.setText("This user hasn't played memory");
 
         location = (TextView) v.findViewById(R.id.location);
-        location.setText("Carrer de Martí 72, Barcelona");
+        //location.setText("aqui la localitzacio");
 
 
         profile_image = (ImageView) v.findViewById(R.id.profile_picture);

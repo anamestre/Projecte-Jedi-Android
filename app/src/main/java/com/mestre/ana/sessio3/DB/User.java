@@ -9,6 +9,24 @@ public class User {
     private String username;
     private int points;
     private String id_photo;
+    private int toasts;
+    private int state;
+
+    public int getToasts() {
+        return toasts;
+    }
+
+    public void setToasts(int toasts) {
+        this.toasts = toasts;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public String getId_photo() {
         return id_photo;
@@ -29,7 +47,6 @@ public class User {
     }
 
     public String getUsername() {
-
         return username;
     }
 
