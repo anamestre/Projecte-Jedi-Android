@@ -3,7 +3,11 @@ package com.mestre.ana.sessio3;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -27,6 +31,7 @@ import android.widget.Toast;
 
 import com.mestre.ana.sessio3.DB.User;
 import com.mestre.ana.sessio3.DB.UserData;
+import com.mestre.ana.sessio3.MusicPlayer.MusicPlayer;
 
 import org.w3c.dom.Text;
 
@@ -296,6 +301,23 @@ public class Calculator extends Fragment implements View.OnClickListener {
 
     public void infoUser(String msg){
         if(toasts) Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        if(state) {
+            Intent notIntent = new Intent(getActivity(), Calculator.class);
+            notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendInt = PendingIntent.getActivity(getActivity(), 0,
+                    notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            Notification.Builder builder = new Notification.Builder(getActivity());
+            builder.setContentIntent(pendInt)
+                    .setSmallIcon(R.drawable.ic_calculator)
+                    .setTicker(msg)
+                    .setContentTitle("Calculator")
+                    .setContentText(msg);
+            Notification not = builder.build();
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(1, not);
+        }
     }
 
     public boolean isPhoneNumber(String num){

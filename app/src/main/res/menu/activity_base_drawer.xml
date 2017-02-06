@@ -24,17 +24,12 @@
             android:title="Music player" />
         <item
             android:id="@+id/nav_calculator"
-            android:icon="@drawable/ic_phone_android_black_24dp"
+            android:icon="@drawable/ic_calculator"
             android:title="Calculator" />
-    </group>
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_help"
-            android:icon="@drawable/ic_help"
-            android:title="Help" />
         <item
             android:id="@+id/nav_log_out"
             android:icon="@drawable/ic_logout"
             android:title="Log out"/>
     </group>
+
 </menu>
