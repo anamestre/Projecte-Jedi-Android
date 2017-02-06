@@ -60,7 +60,7 @@
                 android:textStyle="bold"
                 android:lineSpacingExtra="8dp"
                 android:text="Best memory score"
-                android:padding="@dimen/activity_horizontal_margin"
+                android:padding="8dp"
                 />
             <TextView
                 android:id="@+id/user_score"
@@ -68,7 +68,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:lineSpacingExtra="8dp"
-                android:padding="@dimen/activity_horizontal_margin"
+                android:text="hhhh"
+                android:paddingLeft="8dp"
                 />
             <TextView
                 android:textStyle="bold"
@@ -77,7 +78,7 @@
                 android:textSize="20sp"
                 android:lineSpacingExtra="8dp"
                 android:text="Location"
-                android:padding="@dimen/activity_horizontal_margin"
+                android:padding="8dp"
                 />
             <TextView
                 android:id="@+id/location"
@@ -85,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:lineSpacingExtra="8dp"
-                android:padding="@dimen/activity_horizontal_margin"
+                android:paddingLeft="8dp"
                 />
         </LinearLayout>
 

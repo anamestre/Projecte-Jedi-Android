@@ -38,11 +38,11 @@ public class UserData {
         dbHelper.close();
     }
 
-    public User createUser(String username, int id_photo) {
+    public User createUser(String username) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_USERNAME, username);
         //values.put(MySQLiteHelper.COLUMN_POINTS, null);
-        values.put(MySQLiteHelper.COLUMN_ID_PHOTO, id_photo);
+        //values.put(MySQLiteHelper.COLUMN_ID_PHOTO, id_photo);
         Log.i("Usuari", "creant usuari: " + username);
 
         // Actual insertion of the data using the values variable
@@ -106,6 +106,11 @@ public class UserData {
 
     public void updatePointsUser(int points, String username){
         String query = "UPDATE USERS SET POINTS = " + points + " WHERE USERNAME = '" + username + "'";
+        database.execSQL(query);
+    }
+
+    public void updateImage(String image, String username){
+        String query = "UPDATE USERS SET ID_PHOTO = '" + image + "' WHERE USERNAME = '" + username + "'";
         database.execSQL(query);
     }
 

@@ -16,11 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mestre.ana.sessio3.DB.User;
 import com.mestre.ana.sessio3.DB.UserData;
 import com.mestre.ana.sessio3.MusicPlayer.MusicPlayer;
+import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;
@@ -37,6 +39,7 @@ public class BaseActivity extends AppCompatActivity
     private Fragment fragment;
     private UserData usdata;
     private TextView nav_username;
+    private ImageView nav_image;
     private NavigationView nav;
     public String username;
     private User currentUser;
@@ -78,6 +81,7 @@ public class BaseActivity extends AppCompatActivity
             int hasExternalStoragePermission = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
             if (hasExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+                requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }
         }
     }
@@ -94,6 +98,14 @@ public class BaseActivity extends AppCompatActivity
         nav = (NavigationView) findViewById(R.id.nav_view);
         nav_username = (TextView) nav.getHeaderView(0).findViewById(R.id.username);
         nav_username.setText(username);
+
+        nav_image = (ImageView) nav.getHeaderView(0).findViewById(R.id.profile_picture);
+        if(currentUser.getId_photo() == null)
+            Picasso.with(this).load(R.drawable.avatar).resize(400,400).into(nav_image);
+        else
+            Picasso.with(this).load(currentUser.getId_photo()).resize(400,400).centerCrop().into(nav_image);
+
+
     }
 
     @Override
