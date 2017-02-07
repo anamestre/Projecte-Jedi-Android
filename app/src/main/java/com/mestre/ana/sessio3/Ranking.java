@@ -2,6 +2,7 @@ package com.mestre.ana.sessio3;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -49,6 +50,8 @@ public class Ranking extends Fragment {
         rv.setHasFixedSize(true);
         adapter = new RankingAdapter(getActivity(), usdata.getUsersOrderByRanking());
         rv.setAdapter(adapter);
+        rv.addItemDecoration(new ItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        rv.setItemAnimator(new DefaultItemAnimator());
 
         setHasOptionsMenu(true);
 

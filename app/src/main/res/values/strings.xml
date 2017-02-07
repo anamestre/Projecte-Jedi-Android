@@ -14,4 +14,7 @@
     <string name="username">Name</string>
     <string name="lastNotification">Last notification</string>
     <string name="bestScore">Best score</string>
+    <string name="dialog_title">Congratulations!</string>
+    <string name="new_game">New Game</string>
+    <string name="cancel">Cancel</string>
 </resources>

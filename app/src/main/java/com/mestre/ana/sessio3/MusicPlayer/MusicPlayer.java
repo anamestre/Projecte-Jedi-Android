@@ -51,6 +51,7 @@ public class MusicPlayer extends Fragment implements MediaPlayerControl {
 
     public MusicPlayer(){
 
+
     }
 
     @Override

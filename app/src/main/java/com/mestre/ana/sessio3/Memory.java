@@ -1,10 +1,13 @@
 package com.mestre.ana.sessio3;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -221,11 +224,19 @@ public class Memory extends Fragment implements View.OnClickListener{
 
     }
 
+    private void setFlipper(ImageView image, int id){
+        CoolImageFlipper cif = new CoolImageFlipper(getActivity());
+        Drawable d;
+        if(Build.VERSION.SDK_INT >= 21) d = getResources().getDrawable(id, getActivity().getTheme());
+        else d = getResources().getDrawable(id);
+        cif.flipImage(d, image);
+    }
 
 
     private void refresh(final ImageView image, int id){
+
         if(flip) {
-            image.setImageResource(id);
+            setFlipper(image, id);
             if (numCards == 0) {
                 currentCard = image;
                 currentId = id;
@@ -241,8 +252,8 @@ public class Memory extends Fragment implements View.OnClickListener{
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            currentCard.setImageResource(R.drawable.mouths);
-                            image.setImageResource(R.drawable.mouths);
+                            setFlipper(currentCard, R.drawable.mouths);
+                            setFlipper(image, R.drawable.mouths);
                             flip = true;
                         }
                     }, 500);
@@ -266,6 +277,21 @@ public class Memory extends Fragment implements View.OnClickListener{
             int old_points = db.getUser(username).getPoints();
             if(tried < old_points || old_points == 0) db.updatePointsUser(tried, username);
             db.close();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("It took you " + tried + " moves!!")
+                    .setTitle(R.string.dialog_title)
+                    .setPositiveButton(R.string.new_game, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        iniViews();
+                        createSecretGrid();
+                    }
+                    });
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                    })
+                    .show();
         }
     }
 

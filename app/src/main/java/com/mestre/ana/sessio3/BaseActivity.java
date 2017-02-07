@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import com.mestre.ana.sessio3.DB.User;
 import com.mestre.ana.sessio3.DB.UserData;
 import com.mestre.ana.sessio3.MusicPlayer.MusicController;
 import com.mestre.ana.sessio3.MusicPlayer.MusicPlayer;
+import com.mestre.ana.sessio3.MusicPlayer.MusicPlayerService;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -243,6 +245,7 @@ public class BaseActivity extends AppCompatActivity
                 SharedPreferences.Editor edit = preferences.edit();
                 edit.putBoolean("logIn", false);
                 edit.apply();
+
                 Intent intent = new Intent(this, Login.class);
                 startActivity(intent);
                 break;
